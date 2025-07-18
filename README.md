@@ -4,15 +4,13 @@
 
 > A 24-hour prototype showcasing how to build a full-stack LLM product using vibe coding: a fluid, AI-assisted development approach combining GitHub Copilot, ChatGPT, and Claude Sonnet 4.
 
-[🎥 Watch the Demo](https://youtu.be/JjA7zuZ6Uq0) | [💬 Explore My Vibe Coding Technique](#the-ai-assisted-development-approach)
+**🎥 [Demo Video - Project Demo & Development Process](https://youtu.be/JjA7zuZ6Uq0)**
+
+**🎥 [Demo Video - Vibe Coding Showcase](https://youtu.be/6RB212Y6P-k)**
 
 ## 🎯 Project Overview
 
 A full-stack application that analyzes Instagram posts and generates reusable content templates using AI. Built with React/Vite frontend, Node.js/Express backend, MongoDB, and OpenAI integration.
-
-**🎥 [Demo Video - Project Demo & Development Process](https://youtu.be/JjA7zuZ6Uq0)**
-
-**🎥 [Demo Video - Vibe Coding Showcase](https://youtu.be/6RB212Y6P-k)**
 
 ## 🧠 The AI-Assisted Development Approach
 
