@@ -1,0 +1,100 @@
+<projectSetup>
+  <description>
+    Build a Node.js project in TypeScript that retrieves Instagram posts for a given account ID via the Graph API, stores them in MongoDB, and performs tone/style analysis using OpenAI. This app will expose API endpoints to trigger crawling, analyzing, and generating post templates.
+
+    The service will be containerized using Docker Compose and include a MongoDB instance.
+  </description>
+
+  <techStack>
+    Node.js
+    TypeScript
+    Express.js
+    MongoDB (via Mongoose)
+    OpenAI API
+    Axios
+    dotenv
+    Docker + Docker Compose
+  </techStack>
+
+  <endpoints>
+    <endpoint>
+      <method>POST</method>
+      <path>/crawl</path>
+      <body>{"instagramAccountId": "..."}</body>
+      <description>Fetches recent posts via Instagram API, deduplicates by media ID, and stores new posts in MongoDB.</description>
+    </endpoint>
+    <endpoint>
+      <method>POST</method>
+      <path>/analyze</path>
+      <body>{"instagramAccountId": "..."}</body>
+      <description>Finds uncategorized posts for the account and sends each to OpenAI for tone/structure/prompt extraction. Stores the result in the `analysisResult` field.</description>
+    </endpoint>
+    <endpoint>
+      <method>POST</method>
+      <path>/generate-templates</path>
+      <body>{"instagramAccountId": "..."}</body>
+      <description>Aggregates analyzed posts and uses OpenAI to generate 10–20 reusable post templates. Stores in `templates` collection.</description>
+    </endpoint>
+  </endpoints>
+
+  <dataModels>
+    <model name="Account">
+      <field name="instagramAccountId" type="string" required="true" />
+      <field name="username" type="string" />
+      <field name="lastCrawledAt" type="Date" />
+      <field name="lastAnalyzedAt" type="Date" />
+      <field name="createdAt" type="Date" default="now" />
+      <field name="updatedAt" type="Date" default="now" />
+    </model>
+
+    <model name="Post">
+      <field name="instagramMediaId" type="string" required="true" />
+      <field name="accountId" type="ObjectId" ref="Account" />
+      <field name="caption" type="string" />
+      <field name="mediaUrl" type="string" />
+      <field name="timestamp" type="Date" />
+      <field name="analyzed" type="boolean" default="false" />
+      <field name="analysisResult" type="object" />
+      <field name="createdAt" type="Date" default="now" />
+    </model>
+
+    <model name="Template">
+      <field name="accountId" type="ObjectId" ref="Account" />
+      <field name="title" type="string" />
+      <field name="promptTemplate" type="string" />
+      <field name="tone" type="string" />
+      <field name="structure" type="string" />
+      <field name="tags" type="array[string]" />
+      <field name="examplePostIds" type="array[ObjectId]" ref="Post" />
+      <field name="editable" type="boolean" default="true" />
+      <field name="createdAt" type="Date" default="now" />
+      <field name="updatedAt" type="Date" default="now" />
+    </model>
+  </dataModels>
+
+  <envVariables>
+    IG_ACCESS_TOKEN
+    MONGO_URL
+    OPENAI_API_KEY
+  </envVariables>
+
+  <docker>
+    <dockerfile>
+      Base image: node:18
+      Copy all files and install dependencies
+      Run with ts-node or compiled JS
+    </dockerfile>
+
+    <compose>
+      Services:
+        - app: uses Dockerfile, depends_on mongo, exposes 3000
+        - mongo: uses mongo:6, binds port 27017, has volume for persistence
+    </compose>
+  </docker>
+
+  <futurePlans>
+    - Add frontend UI for editing templates
+    - Add LangChain or RAG-based analysis pipeline
+    - Replace Instagram API with Puppeteer scraping fallback
+  </futurePlans>
+</projectSetup>

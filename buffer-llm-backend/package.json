@@ -1,0 +1,52 @@
+{
+    "name": "buffer-llm-template-prototype",
+    "version": "1.0.0",
+    "description": "Node.js TypeScript app for Instagram post analysis and template generation",
+    "main": "dist/server.js",
+    "scripts": {
+        "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+        "build": "tsc",
+        "start": "node dist/server.js",
+        "test": "jest",
+        "lint": "eslint src/**/*.ts",
+        "docker:build": "docker compose build",
+        "docker:up": "docker compose up -d",
+        "docker:down": "docker compose down",
+        "docker:dev": "docker compose -f docker-compose.dev.yml up -d",
+        "docker:dev-down": "docker compose -f docker-compose.dev.yml down",
+        "install:yarn": "yarn install",
+        "clean": "rm -rf dist node_modules",
+        "test:api": "./test_api.sh",
+        "pipeline": "./trigger-pipeline.sh funk_yuee"
+    },
+    "keywords": [
+        "instagram",
+        "openai",
+        "mongodb",
+        "template-generation"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^1.10.0",
+        "child_process": "^1.0.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "helmet": "^7.0.0",
+        "mongoose": "^7.5.0",
+        "openai": "^4.0.0"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.13",
+        "@types/express": "^4.17.17",
+        "@types/node": "^20.5.0",
+        "@typescript-eslint/eslint-plugin": "^6.4.0",
+        "@typescript-eslint/parser": "^6.4.0",
+        "eslint": "^8.47.0",
+        "jest": "^29.6.2",
+        "ts-node": "^10.9.1",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.1.6"
+    }
+}
